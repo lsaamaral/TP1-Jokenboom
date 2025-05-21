@@ -62,7 +62,7 @@ void game(int csock) {
 
         if (msg.type != MSG_RESPONSE || msg.client_action < 0 || msg.client_action > 4) {
             msg.type = MSG_ERROR;
-            strncpy(msg.message, "Por favor, selecione um valor de 0 a 4.\n", sizeof(msg.message));
+            snprintf(msg.message, MSG_SIZE, "Por favor, selecione um valor de 0 a 4.\n");
             printf("Erro: opção inválida de jogada.\n");
             send(csock, &msg, sizeof(msg), 0);
             continue;
@@ -94,7 +94,7 @@ void game(int csock) {
         }
 
         msg.type = MSG_PLAY_AGAIN_REQUEST;
-        strncpy(msg.message, "Deseja jogar novamente?\n1 - Sim\n0 - Não\n", sizeof(msg.message));
+        snprintf(msg.message, MSG_SIZE, "Deseja jogar novamente?\n1 - Sim\n0 - Não\n");
         printf("Perguntando se o cliente deseja jogar novamente.\n");
         send(csock, &msg, sizeof(msg), 0);
 
@@ -107,7 +107,7 @@ void game(int csock) {
 
             if (msg.type != MSG_PLAY_AGAIN_RESPONSE || (msg.client_action != 0 && msg.client_action != 1)) {
                 msg.type = MSG_ERROR;
-                strncpy(msg.message, "Por favor, digite 1 para jogar novamente ou 0 para encerrar.\n", sizeof(msg.message));
+                snprintf(msg.message, MSG_SIZE, "Por favor, digite 1 para jogar novamente ou 0 para encerrar.\n");
                 printf("Erro: resposta inválida para jogar novamente.\n");
                 send(csock, &msg, sizeof(msg), 0);
             } else {
